@@ -405,6 +405,23 @@
                 </div>
             </div>
         </div>
+        <a id="buttonbedphoto" data-role="button" href="javascript:takebedphoto()">
+            Take a photo
+        </a>
+        <div data-role="popup" id="popupbedphoto" data-history="false">
+            <p>Photo saved.<p>
+        </div>
+        <div id="bedphotocontainer">
+        </div>
+        <div data-role="popup" id="popupbed" data-overlay-theme="a" data-theme="d" data-corners="false">
+            <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img id="photobedshow" class="popphoto" src="" style="max-height:512px;" alt="" />
+        </div>
+        <div id="bedaudiocontainer">
+		<a id="buttonbedaudio" data-role="button" href="javascript:recordaudio()">
+            Start recording
+        </a>
+        </div>
+
     </div>
 </div><!-- /page -->
 

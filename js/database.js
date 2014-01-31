@@ -2,7 +2,8 @@
 // Populate the database
 function populateDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS profiles (id INTEGER PRIMARY KEY, name, description, direction, latitude, longitude, altitude, accuracy, altitudeAccuracy, photo)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS beds (id INTEGER PRIMARY KEY, profileid INTEGER, position INTEGER, name, thickness, facies, notes, boundary, paleocurrent, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS beds (id INTEGER PRIMARY KEY, profileid INTEGER, position INTEGER, name, thickness, facies, notes, boundary, paleocurrent, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols, audio)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS bedphotos (id INTEGER PRIMARY KEY, profileid INTEGER, bedid INTEGER, photo, description)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS typelithology (id INTEGER PRIMARY KEY, name UNIQUE ON CONFLICT IGNORE)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS indexlithology (id INTEGER PRIMARY KEY, typeid INTEGER, name UNIQUE ON CONFLICT IGNORE)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS typestructure (id INTEGER PRIMARY KEY, name UNIQUE ON CONFLICT IGNORE)');

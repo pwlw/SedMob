@@ -168,7 +168,7 @@ function gettablecontents (tx, result) {
 // backup content of the database
 function backupdbContent(ifsynchronize) {
 	var tag = '';
-	var dbtables=["profiles","beds","typelithology","indexlithology","typestructure","indexstructure","grainclastic","graincarbonate","bioturbation","boundaries"];
+	var dbtables=["profiles","beds","bedphotos","typelithology","indexlithology","typestructure","indexstructure","grainclastic","graincarbonate","bioturbation","boundaries"];
 sessionStorage.ifsynchronize = ifsynchronize;
 
 	tag += "DROP TABLE IF EXISTS profiles;\n";
@@ -184,7 +184,8 @@ sessionStorage.ifsynchronize = ifsynchronize;
 
 	if (ifsynchronize == 1) {
 		tag += "CREATE TABLE IF NOT EXISTS profiles (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), description TEXT, direction VARCHAR(10), latitude VARCHAR(255), longitude VARCHAR(255), altitude VARCHAR(255), accuracy VARCHAR(255), altitudeAccuracy VARCHAR(255), photo VARCHAR(255));\n";
-		tag += "CREATE TABLE IF NOT EXISTS beds (id INT PRIMARY KEY AUTO_INCREMENT, profileid INT, position INT, name VARCHAR(255), thickness VARCHAR(10), facies VARCHAR(10), notes TEXT, boundary VARCHAR(30), paleocurrent VARCHAR(30), lit1group VARCHAR(30), lit1type VARCHAR(30), lit1percentage VARCHAR(10), lit2group VARCHAR(30), lit2type VARCHAR(30), lit2percentage VARCHAR(10), lit3group VARCHAR(30), lit3type VARCHAR(30), lit3percentage VARCHAR(10), sizeclasticbase VARCHAR(30), phiclasticbase VARCHAR(10), sizeclastictop VARCHAR(30), phiclastictop VARCHAR(10), sizecarbobase VARCHAR(30), phicarbobase VARCHAR(10), sizecarbotop VARCHAR(30), phicarbotop VARCHAR(10), bioturbationtype VARCHAR(30), bioturbationintensity VARCHAR(30), structures VARCHAR(30), bedsymbols VARCHAR(30));\n";
+		tag += "CREATE TABLE IF NOT EXISTS beds (id INT PRIMARY KEY AUTO_INCREMENT, profileid INT, position INT, name VARCHAR(255), thickness VARCHAR(10), facies VARCHAR(10), notes TEXT, boundary VARCHAR(30), paleocurrent VARCHAR(30), lit1group VARCHAR(30), lit1type VARCHAR(30), lit1percentage VARCHAR(10), lit2group VARCHAR(30), lit2type VARCHAR(30), lit2percentage VARCHAR(10), lit3group VARCHAR(30), lit3type VARCHAR(30), lit3percentage VARCHAR(10), sizeclasticbase VARCHAR(30), phiclasticbase VARCHAR(10), sizeclastictop VARCHAR(30), phiclastictop VARCHAR(10), sizecarbobase VARCHAR(30), phicarbobase VARCHAR(10), sizecarbotop VARCHAR(30), phicarbotop VARCHAR(10), bioturbationtype VARCHAR(30), bioturbationintensity VARCHAR(30), structures VARCHAR(30), bedsymbols VARCHAR(30), audio VARCHAR(255));\n";
+		tag += "CREATE TABLE IF NOT EXISTS bedphotos (id INT PRIMARY KEY AUTO_INCREMENT, profileid INT, bedid INT, photo VARCHAR(255), description TEXT);\n";
 		tag += "CREATE TABLE IF NOT EXISTS typelithology (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255));\n";
 		tag += "CREATE TABLE IF NOT EXISTS indexlithology (id INT PRIMARY KEY AUTO_INCREMENT, typeid INT, name VARCHAR(255));\n";
 		tag += "CREATE TABLE IF NOT EXISTS typestructure (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255));\n";
@@ -196,7 +197,8 @@ sessionStorage.ifsynchronize = ifsynchronize;
 	}
 	else {
 		tag += "CREATE TABLE IF NOT EXISTS profiles (id INTEGER PRIMARY KEY, name, description, direction, latitude, longitude, altitude, accuracy, altitudeAccuracy, photo);\n";
-		tag += "CREATE TABLE IF NOT EXISTS beds (id INTEGER PRIMARY KEY, profileid INTEGER, position INTEGER, name, thickness, facies, notes, boundary, paleocurrent, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols);\n";
+		tag += "CREATE TABLE IF NOT EXISTS beds (id INTEGER PRIMARY KEY, profileid INTEGER, position INTEGER, name, thickness, facies, notes, boundary, paleocurrent, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols, audio);\n";
+		tag += "CREATE TABLE IF NOT EXISTS bedphotos (id INTEGER PRIMARY KEY, profileid INTEGER, bedid INTEGER, photo, description);\n";
 		tag += "CREATE TABLE IF NOT EXISTS typelithology (id INTEGER PRIMARY KEY, name UNIQUE ON CONFLICT IGNORE);\n";
 		tag += "CREATE TABLE IF NOT EXISTS indexlithology (id INTEGER PRIMARY KEY, typeid INTEGER, name UNIQUE ON CONFLICT IGNORE);\n";
 		tag += "CREATE TABLE IF NOT EXISTS typestructure (id INTEGER PRIMARY KEY, name UNIQUE ON CONFLICT IGNORE);\n";

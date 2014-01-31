@@ -40,6 +40,14 @@ $( document ).delegate("#addbed", "pageshow", function() {
 			$('#lit3percentage').val(100-parseInt($('#lit1percentage').val())-parseInt($('#lit2percentage').val()));
 		}
 	});
+
+	$( "#popupbed" ).on({
+		popupbeforeposition: function() {
+			var maxHeight = $( window ).height() - 60 + "px";
+			$( "#popupbed img" ).css( "max-height", maxHeight );
+		}
+	});
+
 });
 
 // save bed
@@ -59,12 +67,17 @@ function savebedDB(tx){
 		return;
 		}
 
+	var audiopath = '';
+	if (sessionStorage.audiopath) {
+		audiopath = sessionStorage.audiopath;
+	}
+
 	var tag = '';
 	if (sessionStorage.selectedbed == 0) {
-		tag = 'INSERT INTO beds (profileid, position, name, thickness, facies, notes, paleocurrent, boundary, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols) VALUES ("'+ sessionStorage.selectedprofile +'", '+(parseInt(sessionStorage.numberofbeds)+1)+', "'+$('#bedname').val()+'", "'+$('#thickness').val()+'", "'+$('#facies').val()+'", "'+$('#notes').val()+'", "'+$('#paleocurrent').val()+'", "'+$('#boundary').val()+'", "'+$("#lit1group").val()+'", "'+$('#lit1type').val()+'", "'+$('#lit1percentage').val()+'", "'+$('#lit2group').val()+'", "'+$('#lit2type').val()+'", "'+$('#lit2percentage').val()+'", "'+$('#lit3group').val()+'", "'+$('#lit3type').val()+'", "'+$('#lit3percentage').val()+'", "'+$('#grainsizebottom option:selected').text()+'", "'+$('#grainsizebottom').val()+'", "'+$('#grainsizetop option:selected').text()+'", "'+$('#grainsizetop').val()+'", "'+$('#grainsizelimebottom option:selected').text()+'", "'+$('#grainsizelimebottom').val()+'", "'+$('#grainsizelimetop option:selected').text()+'", "'+$('#grainsizelimetop').val()+'", "'+$('#bioturbationtype').val()+'", "'+$('#intensity').val()+'", "'+$('#structurestype').val()+'", "'+$('#symbolstype').val()+'")';
+		tag = 'INSERT INTO beds (profileid, position, name, thickness, facies, notes, paleocurrent, boundary, lit1group, lit1type, lit1percentage, lit2group, lit2type, lit2percentage, lit3group, lit3type, lit3percentage, sizeclasticbase, phiclasticbase, sizeclastictop, phiclastictop, sizecarbobase, phicarbobase, sizecarbotop, phicarbotop, bioturbationtype, bioturbationintensity, structures, bedsymbols, audio) VALUES ("'+ sessionStorage.selectedprofile +'", '+(parseInt(sessionStorage.numberofbeds)+1)+', "'+$('#bedname').val()+'", "'+$('#thickness').val()+'", "'+$('#facies').val()+'", "'+$('#notes').val()+'", "'+$('#paleocurrent').val()+'", "'+$('#boundary').val()+'", "'+$("#lit1group").val()+'", "'+$('#lit1type').val()+'", "'+$('#lit1percentage').val()+'", "'+$('#lit2group').val()+'", "'+$('#lit2type').val()+'", "'+$('#lit2percentage').val()+'", "'+$('#lit3group').val()+'", "'+$('#lit3type').val()+'", "'+$('#lit3percentage').val()+'", "'+$('#grainsizebottom option:selected').text()+'", "'+$('#grainsizebottom').val()+'", "'+$('#grainsizetop option:selected').text()+'", "'+$('#grainsizetop').val()+'", "'+$('#grainsizelimebottom option:selected').text()+'", "'+$('#grainsizelimebottom').val()+'", "'+$('#grainsizelimetop option:selected').text()+'", "'+$('#grainsizelimetop').val()+'", "'+$('#bioturbationtype').val()+'", "'+$('#intensity').val()+'", "'+$('#structurestype').val()+'", "'+$('#symbolstype').val()+'","'+audiopath+'")';
 	}
 	else {
-		tag = 'UPDATE beds SET name="'+$('#bedname').val()+'", thickness="'+$('#thickness').val()+'", facies="'+$('#facies').val()+'", notes="'+$('#notes').val()+'", paleocurrent="'+$('#paleocurrent').val()+'", boundary="'+$('#boundary').val()+'", lit1group="'+$("#lit1group").val()+'", lit1type="'+$('#lit1type').val()+'", lit1percentage="'+$('#lit1percentage').val()+'", lit2group="'+$('#lit2group').val()+'", lit2type="'+$('#lit2type').val()+'", lit2percentage="'+$('#lit2percentage').val()+'", lit3group="'+$('#lit3group').val()+'", lit3type="'+$('#lit3type').val()+'", lit3percentage="'+$('#lit3percentage').val()+'", sizeclasticbase="'+$('#grainsizebottom option:selected').text()+'", phiclasticbase="'+$('#grainsizebottom').val()+'", sizeclastictop="'+$('#grainsizetop option:selected').text()+'", phiclastictop="'+$('#grainsizetop').val()+'", sizecarbobase="'+$('#grainsizelimebottom option:selected').text()+'", phicarbobase="'+$('#grainsizelimebottom').val()+'", sizecarbotop="'+$('#grainsizelimetop option:selected').text()+'", phicarbotop="'+$('#grainsizelimetop').val()+'", bioturbationtype="'+$('#bioturbationtype').val()+'", bioturbationintensity="'+$('#intensity').val()+'", structures="'+$('#structurestype').val()+'", bedsymbols="'+$('#symbolstype').val()+'" WHERE id='+sessionStorage.selectedbed;
+		tag = 'UPDATE beds SET name="'+$('#bedname').val()+'", thickness="'+$('#thickness').val()+'", facies="'+$('#facies').val()+'", notes="'+$('#notes').val()+'", paleocurrent="'+$('#paleocurrent').val()+'", boundary="'+$('#boundary').val()+'", lit1group="'+$("#lit1group").val()+'", lit1type="'+$('#lit1type').val()+'", lit1percentage="'+$('#lit1percentage').val()+'", lit2group="'+$('#lit2group').val()+'", lit2type="'+$('#lit2type').val()+'", lit2percentage="'+$('#lit2percentage').val()+'", lit3group="'+$('#lit3group').val()+'", lit3type="'+$('#lit3type').val()+'", lit3percentage="'+$('#lit3percentage').val()+'", sizeclasticbase="'+$('#grainsizebottom option:selected').text()+'", phiclasticbase="'+$('#grainsizebottom').val()+'", sizeclastictop="'+$('#grainsizetop option:selected').text()+'", phiclastictop="'+$('#grainsizetop').val()+'", sizecarbobase="'+$('#grainsizelimebottom option:selected').text()+'", phicarbobase="'+$('#grainsizelimebottom').val()+'", sizecarbotop="'+$('#grainsizelimetop option:selected').text()+'", phicarbotop="'+$('#grainsizelimetop').val()+'", bioturbationtype="'+$('#bioturbationtype').val()+'", bioturbationintensity="'+$('#intensity').val()+'", structures="'+$('#structurestype').val()+'", bedsymbols="'+$('#symbolstype').val()+'", audio="'+audiopath+'" WHERE id='+sessionStorage.selectedbed;
 	}
 
 	tx.executeSql(tag,[], function (tx,result) {}, errorCB);
@@ -203,6 +216,10 @@ function addbedmenusDB(tx){
 	}, errorCB);
 
 	$('#intensity').val('0');
+	$("#buttonbedphoto").hide();
+	$("#bedphotocontainer").hide();
+	$('#bedphotocontainer').html('');
+	sessionStorage.numberofbedphotos = 0;
 
 	// fill in fields if a profile is loaded
 	if (sessionStorage.selectedbed != 0) {
@@ -253,6 +270,25 @@ function addbedmenusDB(tx){
 				$('#structurestype option[value="'+splittedstructures[i]+'"]').prop('selected',true);
 				$('#structurestype').selectmenu("refresh",true);
 			}
+
+		// load audio recording
+		if (result.rows.item(0).audio) {
+			sessionStorage.audiopath = result.rows.item(0).audio;
+			$('#bedaudiocontainer').html('<a href="#" class="btn large" onclick="playAudio(result.rows.item(0).audio);">Play audio recording</a><a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a><a href="#" class="btn large" onclick="stopAudio();">Stop Playing Audio</a><p id="audio_position"></p>');
+		}
+
+		}, errorCB);
+	}
+
+	// find bed photos if a profile is loaded
+	$("#buttonbedphoto").show();
+	$("#bedphotocontainer").show();
+	if (sessionStorage.selectedbed != 0) {
+		tx.executeSql('SELECT * FROM bedphotos WHERE bedid="'+sessionStorage.selectedbed+'"',[], function (tx,result) {
+			sessionStorage.numberofbedphotos = result.rows.length;
+			for (var i=0; i<result.rows.length; i++) {
+$('#bedphotocontainer').append('<p style="vertical-align: top;"><img src="' + result.rows.item(i).photo + '" style="width:200px; margin-right:20px;" />'+result.rows.item(i).description+'</p>');
+			} // end for i
 		}, errorCB);
 	}
 }
@@ -290,3 +326,178 @@ function reloadmenusDB(tx, elementgroup, elementtype){
         }, errorCB);
     }
 }
+
+	// save bed photo
+ function capturebedSuccess(mediaFiles) {
+
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+		var entry=fileSystem.root; 
+		entry.getDirectory("SedMob", {create: true, exclusive: false}, function (dir) {
+			window.resolveLocalFileSystemURI(mediaFiles[0].fullPath, function(file) {
+				file.moveTo(dir,sessionStorage.selectedbed+'_'+(parseInt(sessionStorage.numberofbedphotos)+1)+'.jpg');
+				opensaved ();
+			}, function (err) { } );
+		}, function (error){
+			//console.log("Error opening directory "+error.code); 
+		});
+
+	}, null);
+
+	// show a confirmation
+	$('#popupbedphoto').popup("open")
+		setTimeout(function() {
+		$('#popupbedphoto').popup("close");
+		}, 2500);
+
+}
+
+// open new bed photo
+function opensaved () {
+	// get uri of photo in new location
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+		// the place where the file will be written
+		var photoname = sessionStorage.selectedbed+'_'+(parseInt(sessionStorage.numberofbedphotos)+1)+'.jpg';
+		fileSystem.root.getFile('SedMob/'+photoname, {create: false, exclusive: false}, function(fileEntry) {
+			var uri = fileEntry.toURL();
+			var d = new Date();
+
+			sessionStorage.beddescription = "";
+			navigator.notification.prompt(
+				'Please enter bed photo description',  // message
+				function (results) {
+					if (results.buttonIndex == 1)	{
+						sessionStorage.beddescription = results.input1;
+						$('#bedphotocontainer').append('<p style="vertical-align: top;"><img src="' + uri+'?'+d.getTime() + '" style="width:200px; margin-right:20px;" />'+sessionStorage.beddescription+'</p>');
+
+						// save bed photo to the database
+						sessionStorage.bedphotopath = uri;
+						db.transaction(function (tx) {
+							tag = 'INSERT INTO bedphotos (bedid, photo, description) VALUES ('+sessionStorage.selectedbed+', "'+sessionStorage.bedphotopath+'", "'+sessionStorage.beddescription+'")';
+							tx.executeSql(tag,[], function (tx,result) { }, errorCB);
+							savetofile (tag);
+							sessionStorage.numberofbedphotos = parseInt(sessionStorage.numberofbedphotos)+1;
+						}, errorCB);
+
+					}
+				},                  // callback to invoke
+				'Description',            // title
+				['Save','Exit'],             // buttonLabels
+				''                 // defaultText
+			);
+
+		}, function (err) { } );
+	}, filewritefail);
+}
+
+// take a photo; wrapper
+function takebedphoto() {
+	navigator.device.capture.captureImage(capturebedSuccess, captureError);
+}
+
+// Audio recording and playing
+
+//Playing audio
+
+// Audio player
+var my_media = null;
+var mediaTimer = null;
+
+// Play audio
+function playAudio(src) {
+	// Create Media object from src
+	my_media = new Media(src, function () {}, function (error) {});
+
+	// Play audio
+	my_media.play();
+
+	// Update my_media position every second
+	if (mediaTimer == null) {
+		mediaTimer = setInterval(function() {
+			// get my_media position
+			my_media.getCurrentPosition(
+				// success callback
+				function(position) {
+					if (position > -1) {
+						setAudioPosition((position) + " sec");
+					}
+				},
+				// error callback
+				function(e) {
+					setAudioPosition("Error: " + e);
+				}
+			);
+		}, 1000);
+	}
+}
+
+// Pause audio
+function pauseAudio() {
+	if (my_media) {
+		my_media.pause();
+	}
+}
+
+// Stop audio
+function stopAudio() {
+	if (my_media) {
+		my_media.stop();
+	}
+	clearInterval(mediaTimer);
+	mediaTimer = null;
+}
+
+// Set audio position
+function setAudioPosition(position) {
+	document.getElementById('audio_position').innerHTML = position;
+}
+
+// Recording audio
+
+// Record audio
+function recordaudio() {
+	$('#bedaudiocontainer').html('<p>Recording audio...</p>');
+	navigator.device.capture.captureAudio(audioSuccess, audioError);
+}
+
+// capture callback
+var audioSuccess = function(mediaFiles) {
+	path = mediaFiles[0].fullPath;
+
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+		var entry=fileSystem.root; 
+		entry.getDirectory("SedMob", {create: true, exclusive: false}, function (dir) {
+			window.resolveLocalFileSystemURI(mediaFiles[0].fullPath, function(file) {
+				file.moveTo(dir,'audio'+sessionStorage.selectedbed+'.mp3');
+				processaudiofile ();
+			}, function (err) { } );
+		}, function (error){
+			//console.log("Error opening directory "+error.code); 
+		}); 
+	}, null);
+
+};
+
+// process audio file recorded
+function processaudiofile () {
+	// get uri of photo in new location
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+		// the place where the file will be written
+		fileSystem.root.getFile('SedMob/'+'audio'+sessionStorage.selectedbed+'.mp3', {create: false, exclusive: false}, function(fileEntry) {
+
+			var uri = fileEntry.toURL();
+			var d = new Date();
+
+			$('#bedaudiocontainer').html('<a href="#" class="btn large" onclick="playAudio(uri);">Play audio recording</a><a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a><a href="#" class="btn large" onclick="stopAudio();">Stop Playing Audio</a><p id="audio_position"></p>');
+
+			// save bed photo to the database
+			sessionStorage.audiopath = uri;
+
+		}, function (err) { } );
+	}, filewritefail);
+}
+
+// capture error callback
+var audioError = function(error) {
+	$('#bedaudiocontainer').html('<a id="buttonbedaudio" data-role="button" href="javascript:recordaudio()">Start recording</a>');
+    navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+};

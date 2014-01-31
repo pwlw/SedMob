@@ -133,6 +133,9 @@ function deleteprofileDB(tx) {
 	var tag = 'DELETE FROM beds WHERE profileid='+sessionStorage.selectedprofile;
 	tx.executeSql(tag,[], function (tx,result) {}, errorCB);
 	savetofile (tag);
+	tag = 'DELETE FROM bedphotos WHERE profileid='+sessionStorage.selectedprofile;
+	tx.executeSql(tag,[], function (tx,result) {}, errorCB);
+	savetofile (tag);
 	tag = 'DELETE FROM profiles WHERE id='+sessionStorage.selectedprofile;
 	savetofile (tag);
 	tx.executeSql(tag,[], function (tx,result) {
@@ -153,6 +156,9 @@ function deletebedDB(tx) {
 		sessionStorage.selectedbed=0;
 		$.mobile.changePage($("#addprofile"));
 	}, errorCB);
+	tag = 'DELETE FROM bedphotos WHERE bedid='+sessionStorage.selectedbed;
+	tx.executeSql(tag,[], function (tx,result) {}, errorCB);
+	savetofile (tag);
 }
 
 // get geolocation data
@@ -186,12 +192,18 @@ function captureSuccess(mediaFiles) {
 		entry.getDirectory("SedMob", {create: true, exclusive: false}, function (dir) {
 			window.resolveLocalFileSystemURI(mediaFiles[0].fullPath, function(file) {
 				file.moveTo(dir,namereplaced+'.jpg');
+				processphoto ();
 			}, function (err) { } );
 		}, function (error){
 			//console.log("Error opening directory "+error.code); 
 		}); 
 	}, null);
+}
 
+// process a photo in new location
+function processphoto () {
+	var namereplaced = $('#inputname').val();
+	namereplaced.replace(/[^A-Za-z]+/g, '');
 	// get uri of photo in new location
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
 		// the place where the file will be written
